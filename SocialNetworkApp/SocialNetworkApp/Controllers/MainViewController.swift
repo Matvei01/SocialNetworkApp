@@ -52,7 +52,7 @@ final class MainViewController: UIViewController {
             image: .cross,
             viewY:
                 writeButton.frame.origin.y + (writeButton.frame.height - view.frame.height * 0.0698060489336407) / 2,
-            offsetX: 0.166
+            offsetX: 0.160
         )
     }()
     
@@ -60,7 +60,7 @@ final class MainViewController: UIViewController {
         createButton(
             image: .heart,
             viewY: crossButton.frame.origin.y,
-            offsetX: 0 - 0.166
+            offsetX: 0 - 0.160
         )
     }()
     
