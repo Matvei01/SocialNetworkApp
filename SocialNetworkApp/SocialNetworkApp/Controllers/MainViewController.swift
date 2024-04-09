@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 40
         
-        setFrameFor(
+        setFrame(
             mainView: view,
             configView: imageView,
             widthPercentage: 0.861,
@@ -27,7 +27,6 @@ final class MainViewController: UIViewController {
         )
         
         return imageView
-        
     }()
     
     private lazy var badgeImageView: UIImageView = {
@@ -49,35 +48,20 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var crossButton: UIButton = {
-        let button = UIButton()
-        setFrameFor(
-            mainView: view, configView: button,
-            widthPercentage: 0.1511627907,
-            heightPercentage: 0.0698060489336407,
-            offsetY: 0 - 0.17,
+        createButton(
+            image: .cross,
+            viewY:
+                writeButton.frame.origin.y + (writeButton.frame.height - view.frame.height * 0.0698060489336407) / 2,
             offsetX: 0.166
         )
-        
-        button.backgroundColor = .appGray
-        button.setImage(.cross, for: .normal)
-        
-        return button
     }()
     
     private lazy var heartButton: UIButton = {
-        let button = UIButton()
-        setFrameFor(
-            mainView: view, configView: button,
-            widthPercentage: 0.1511627907,
-            heightPercentage: 0.0698060489336407,
-            offsetY: 0 - 0.17,
+        createButton(
+            image: .heart,
+            viewY: crossButton.frame.origin.y,
             offsetX: 0 - 0.166
         )
-        
-        button.backgroundColor = .appGray
-        button.setImage(.heart, for: .normal)
-        
-        return button
     }()
     
     private lazy var writeButton: UIButton = {
@@ -88,7 +72,7 @@ final class MainViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.layer.cornerRadius = 20
         
-        setFrameFor(
+        setFrame(
             mainView: view, configView: button,
             widthPercentage: 0.482,
             heightPercentage: 0.0537,
@@ -105,14 +89,13 @@ final class MainViewController: UIViewController {
         stackView.distribution = .fillEqually
         stackView.spacing = 12
         
-        setFrameFor(
+        setFrame(
             mainView: personImageView, configView: stackView,
             widthPercentage: 0.34,
             heightPercentage: 0.09,
             offsetY: 0.39,
             offsetX: 0.24
         )
-        
         
         return stackView
     }()
@@ -138,7 +121,7 @@ final class MainViewController: UIViewController {
         stackView.distribution = .fillEqually
         stackView.spacing = 3
         
-        setFrameFor(
+        setFrame(
             mainView: personImageView, configView: stackView,
             widthPercentage: 0.493,
             heightPercentage: 0.09,
@@ -153,7 +136,7 @@ final class MainViewController: UIViewController {
         let button = UIButton()
         button.setImage(.more, for: .normal)
         
-        setFrameFor(
+        setFrame(
             mainView: personImageView, configView: button,
             widthPercentage: 0.135,
             heightPercentage: 0.134,
@@ -167,7 +150,7 @@ final class MainViewController: UIViewController {
     private lazy var fullNameLabel: UILabel = {
         createLabel(text: "Имя Фамилия")
     }()
-        
+    
     private lazy var ageLabel: UILabel = {
         createLabel(text: "25 лет")
     }()
@@ -232,16 +215,42 @@ private extension MainViewController {
         
         return label
     }
+    
+    func createButton(image: UIImage, viewY: CGFloat, offsetX: CGFloat) -> UIButton {
+        let button = UIButton()
+        
+        let widthPercentage: CGFloat = 0.1511627907
+        let heightPercentage: CGFloat = 0.0698060489336407
+        
+        let screenWidth = view.frame.width
+        let screenHeight = view.frame.height
+        
+        // Вычисляем размеры button
+        let viewWidth = screenWidth * widthPercentage
+        let viewHeight = screenHeight * heightPercentage
+        
+        // Вычисляем координаты X и Y для размещения button по центру экрана
+        let viewX = (screenWidth - viewWidth) / 2 - screenHeight * offsetX
+        let viewY = viewY
+        
+        // Устанавливаем фрейм button
+        button.frame = CGRect(x: viewX, y: viewY, width: viewWidth, height: viewHeight)
+        
+        button.backgroundColor = .appGray
+        button.setImage(image, for: .normal)
+        
+        return button
+    }
 }
 
 // MARK: - Frame
 private extension MainViewController {
-    func setFrameFor(mainView: UIView,
-                     configView: UIView,
-                     widthPercentage: CGFloat,
-                     heightPercentage: CGFloat,
-                     offsetY : CGFloat,
-                     offsetX: CGFloat? = nil) {
+    func setFrame(mainView: UIView,
+                  configView: UIView,
+                  widthPercentage: CGFloat,
+                  heightPercentage: CGFloat,
+                  offsetY : CGFloat,
+                  offsetX: CGFloat? = nil) {
         
         let screenWidth = mainView.frame.width
         let screenHeight = mainView.frame.height
